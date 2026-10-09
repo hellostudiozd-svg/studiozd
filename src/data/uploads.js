@@ -7,6 +7,13 @@
  */
 export const uploads = [
   {
+    "file": "studioz-d-wedding-thirupathi.webp",
+    "category": "wedding",
+    "aspect": "3/2",
+    "alt": "Wedding thirupathi",
+    "addedAt": "2026-10-09T16:12:56.207Z"
+  },
+  {
     "file": "studioz-d-portrait-beach-oct9.webp",
     "category": "portrait",
     "aspect": "2/3",
