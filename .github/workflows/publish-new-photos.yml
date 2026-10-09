@@ -1,0 +1,48 @@
+# Publishes photos dropped into new-photos/<category>/.
+#
+# Resizes them, adds them to the top of their category gallery
+# (src/data/uploads.js), removes the originals and commits. Cloudflare then
+# deploys that commit like any other push.
+
+name: Publish new photos
+
+on:
+  push:
+    branches: [main]
+    paths: ['new-photos/**']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-new-photos
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run publish-photos
+
+      - name: Commit published photos
+        run: |
+          git config user.name "studioz-d-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A new-photos public/assets/images/works src/data/uploads.js
+          if git diff --cached --quiet; then
+            echo "Nothing to publish."
+            exit 0
+          fi
+          git commit -m "Publish new photos"
+          git pull --rebase origin main
+          git push
