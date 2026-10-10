@@ -20,6 +20,7 @@ import {
   getCategoryById,
   routableWorkCategories,
 } from '@/data/works';
+import { heroForWorkCategory, heroForPage } from '@/data/heroes';
 import { breadcrumbSchema, collectionPageSchema } from '@/utils/seo';
 import { trackFilter, trackLightboxOpen } from '@/services/analytics.service';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
@@ -68,9 +69,15 @@ export const Works = ({ categorySegment: segmentProp }) => {
   const shown = photos.slice(0, visible);
   const hasMore = visible < photos.length;
 
-  // Hero uses the strongest frame from the current view, so a category page
-  // leads with its own work rather than a generic cover.
-  const heroPhoto = photos[0];
+  // A banner uploaded through new-hero-photos/ wins. Otherwise the hero uses
+  // the strongest original frame from the current view, so a category page
+  // leads with its own work. Gallery uploads (new-photos/) never change it.
+  const uploadedHero = routeCategory
+    ? heroForWorkCategory(routeCategory.id)
+    : activeId === 'all'
+      ? heroForPage('works')
+      : heroForWorkCategory(activeId);
+  const heroPhoto = uploadedHero ?? photos.find((photo) => !photo.addedAt) ?? photos[0];
   const heroImage = heroPhoto?.src;
   const heroAlt = heroPhoto?.alt ?? '';
 

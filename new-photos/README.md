@@ -154,9 +154,16 @@ Behind the scenes:
 ## Where the new photo appears
 
 - **First image, first row** on that category's page, for example *Our Work → Weddings*.
-- The **big banner image** at the top of that category page.
 - First in the gallery on the matching **Service** page, for example *Wedding Photography*.
 - At the top of **Our Work → All**.
+- As the **cover photo** of that category's project card, which moves to the **front** of "Recent stories" (Services page) and "Selected Works" (Home page).
+- As the **first photo** on that project's own page.
+
+---
+
+> **Want to change the big banner image at the top of a page?** That is a
+> separate folder: see [`new-hero-photos`](../new-hero-photos/README.md).
+> Photos in `new-photos` never change a banner.
 
 ---
 

@@ -16,7 +16,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: publish-new-photos
+  group: publish-photos
   cancel-in-progress: false
 
 jobs:

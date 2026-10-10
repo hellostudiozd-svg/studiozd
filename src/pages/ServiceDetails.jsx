@@ -65,11 +65,15 @@ export const ServiceDetails = () => {
         title={service.title}
         lede={service.tagline}
         media={[
-          { src: service.heroImage, alt: `${service.title} by Studioz D`, position: service.heroPosition },
+          {
+            src: service.heroImage,
+            alt: service.heroAlt ?? `${service.title} by Studioz D`,
+            position: service.heroPosition,
+          },
         ]}
         imageTall={
           service.heroImageTall
-            ? { src: service.heroImageTall, alt: `${service.title} by Studioz D` }
+            ? { src: service.heroImageTall, alt: service.heroAlt ?? `${service.title} by Studioz D` }
             : undefined
         }
         layout="immersive"

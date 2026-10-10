@@ -10,6 +10,7 @@ import { StorySection } from '@/components/sections/StorySection';
 import { RevealGroup, RevealItem } from '@/components/motion/Reveal';
 import { services, serviceGroups, getServicesByGroup } from '@/data/services';
 import { getFeaturedWorks } from '@/data/works';
+import { heroForPage } from '@/data/heroes';
 import { getLatestArticles } from '@/data/journal';
 import { creativeProcess } from '@/data/about';
 import { breadcrumbSchema, collectionPageSchema } from '@/utils/seo';
@@ -32,6 +33,8 @@ const GROUP_BLURBS = {
 export const Services = () => {
   const selectedWorks = getFeaturedWorks(3);
   const latestArticles = getLatestArticles(3);
+  // Banner uploaded through new-hero-photos/services-page, if any.
+  const pageHero = heroForPage('services');
 
   const trail = [
     { name: 'Home', path: '/' },
@@ -66,12 +69,17 @@ export const Services = () => {
         title="Created around your story."
         lede="Photographs that keep a moment, and imagery that helps a brand stand out."
         accent="your story"
-        image="/assets/images/works/studioz-d-pre-wedding-beach-horse.webp"
-        imageAlt="Couple on a beach under a stormy sky beside a painted horse, photographed by Studioz D"
-        imageTall={{
-          src: '/assets/images/works/studioz-d-pre-wedding-golden-hour-close.webp',
-          alt: 'Couple forehead to forehead by the sea at golden hour, photographed by Studioz D',
-        }}
+        image={pageHero?.src ?? '/assets/images/works/studioz-d-pre-wedding-beach-horse.webp'}
+        imageAlt={
+          pageHero?.alt ??
+          'Couple on a beach under a stormy sky beside a painted horse, photographed by Studioz D'
+        }
+        imageTall={
+          pageHero ?? {
+            src: '/assets/images/works/studioz-d-pre-wedding-golden-hour-close.webp',
+            alt: 'Couple forehead to forehead by the sea at golden hour, photographed by Studioz D',
+          }
+        }
         layout="immersive"
         railLabel="Photography"
         railIndex="01"

@@ -1,0 +1,47 @@
+# Publishes banner photos dropped into new-hero-photos/<folder>/.
+#
+# Resizes them, records each as its page's banner (src/data/heroUploads.js),
+# removes the originals and commits. Cloudflare then deploys that commit.
+
+name: Publish hero photos
+
+on:
+  push:
+    branches: [main]
+    paths: ['new-hero-photos/**']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-photos
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run publish-heroes
+
+      - name: Commit published photos
+        run: |
+          git config user.name "studioz-d-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A new-hero-photos public/assets/images/heroes src/data/heroUploads.js
+          if git diff --cached --quiet; then
+            echo "Nothing to publish."
+            exit 0
+          fi
+          git commit -m "Publish hero photos"
+          git pull --rebase origin main
+          git push

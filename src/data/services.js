@@ -7,7 +7,9 @@
  * drop real photography in under the same filename and nothing else changes.
  */
 
-export const services = [
+import { heroForService } from './heroes.js';
+
+const serviceData = [
   {
     id: 'svc-wedding',
     slug: 'wedding-photography',
@@ -658,6 +660,22 @@ export const services = [
     ],
   },
 ];
+
+/**
+ * A banner uploaded through new-hero-photos/ (see heroes.js) replaces both the
+ * wide and the phone banner, so every screen size shows the new photo.
+ */
+export const services = serviceData.map((service) => {
+  const hero = heroForService(service.slug);
+  if (!hero) return service;
+  return {
+    ...service,
+    heroImage: hero.src,
+    heroImageTall: hero.src,
+    heroAlt: hero.alt,
+    heroPosition: 'center',
+  };
+});
 
 /* ------------------------------------------------------------------------ */
 /* Selectors                                                                 */

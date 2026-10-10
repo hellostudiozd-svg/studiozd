@@ -161,7 +161,7 @@ export const workCategories = [
   },
 ];
 
-export const works = [
+const projects = [
   /* ---------------------------------------------------------- WEDDINGS -- */
   {
     id: 'work-001',
@@ -726,6 +726,35 @@ export const works = [
   },
 ];
 
+/**
+ * Photos dropped into new-photos/<category>/ and published by
+ * scripts/publish-new-photos.mjs (see src/data/uploads.js), newest first.
+ *
+ * Each one joins the first project whose main category matches: it becomes
+ * that project's first image and its cover. So a new photo updates every place
+ * the project is shown — galleries, project cards, "Recent stories", the home
+ * page and the project page itself — not just the masonry grid.
+ */
+const ownerOf = (category) =>
+  projects.find((entry) => entry.primaryCategory === category) ??
+  projects.find((entry) => entry.categories.includes(category));
+
+const uploadsFor = (project) => uploads.filter((upload) => ownerOf(upload.category) === project);
+
+export const works = projects.map((project) => {
+  const added = uploadsFor(project).map((upload) => ({
+    ...img(upload.file, upload.aspect, upload.alt),
+    addedAt: upload.addedAt,
+  }));
+  if (added.length === 0) return project;
+  return {
+    ...project,
+    coverImage: added[0].src,
+    lastUpdated: added[0].addedAt,
+    images: [...added, ...project.images],
+  };
+});
+
 /* ------------------------------------------------------------------------ */
 /* Selectors                                                                 */
 /* ------------------------------------------------------------------------ */
@@ -745,9 +774,15 @@ export const filterWorks = (categoryId = 'all') =>
   categoryId === 'all' ? works : works.filter((work) => work.categories.includes(categoryId));
 
 export const getFeaturedWorks = (limit = 8) => {
-  const featured = works.filter((work) => work.featured);
-  const ordered = [...featured].sort((a, b) => (a.heroRank ?? 99) - (b.heroRank ?? 99));
-  return ordered.slice(0, limit);
+  // Projects with a newly uploaded photo lead, most recent first — so the
+  // "Recent stories" and "Selected Works" bands always show the latest work.
+  const updated = works
+    .filter((work) => work.lastUpdated)
+    .sort((a, b) => b.lastUpdated.localeCompare(a.lastUpdated));
+  const featured = works
+    .filter((work) => work.featured && !work.lastUpdated)
+    .sort((a, b) => (a.heroRank ?? 99) - (b.heroRank ?? 99));
+  return [...updated, ...featured].slice(0, limit);
 };
 
 /** Projects linked from a service detail page. */
@@ -766,29 +801,6 @@ export const getRelatedWorks = (slug, limit = 3) => {
   );
   return [...sameCategory, ...fill].slice(0, limit);
 };
-
-/**
- * Photos dropped into new-photos/<category>/ and published by
- * scripts/publish-new-photos.mjs. Each is attached to the first project in its
- * category so the card and lightbox still link somewhere real.
- */
-const uploadedPhotos = uploads.flatMap((upload, index) => {
-  const work = works.find((entry) => entry.categories.includes(upload.category));
-  if (!work) return [];
-  return [
-    {
-      ...img(upload.file, upload.aspect, upload.alt),
-      id: `upload-${index}-${upload.file}`,
-      workSlug: work.slug,
-      workTitle: work.title,
-      category: work.category,
-      categories: [upload.category],
-      year: work.year,
-      location: work.location,
-      index: 0,
-    },
-  ];
-});
 
 const getProjectPhotos = (categoryId) =>
   filterWorks(categoryId).flatMap((work) =>
@@ -810,12 +822,13 @@ const getProjectPhotos = (categoryId) =>
  * masonry gallery, carrying its parent project forward for captions and links.
  * Newly uploaded photos always come first, newest at the top-left.
  */
-export const getAllPhotos = (categoryId = 'all') => [
-  ...uploadedPhotos.filter(
-    (photo) => categoryId === 'all' || photo.categories.includes(categoryId)
-  ),
-  ...getProjectPhotos(categoryId),
-];
+export const getAllPhotos = (categoryId = 'all') => {
+  const photos = getProjectPhotos(categoryId);
+  const added = photos
+    .filter((photo) => photo.addedAt)
+    .sort((a, b) => b.addedAt.localeCompare(a.addedAt));
+  return [...added, ...photos.filter((photo) => !photo.addedAt)];
+};
 
 /** The "Studioz D Wall" — one signature frame per featured project. */
 export const getWallPhotos = (limit = 5) =>
