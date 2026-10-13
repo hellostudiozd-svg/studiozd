@@ -7,6 +7,20 @@
  */
 export const uploads = [
   {
+    "file": "studioz-d-engagement-swernaont.webp",
+    "category": "engagement",
+    "aspect": "3/2",
+    "alt": "Engagement swernaont",
+    "addedAt": "2026-10-13T13:55:27.578Z"
+  },
+  {
+    "file": "studioz-d-engagement-wngagemnt-one-2.webp",
+    "category": "engagement",
+    "aspect": "3/2",
+    "alt": "Wngagemnt one",
+    "addedAt": "2026-10-13T13:55:53.790Z"
+  },
+  {
     "file": "studioz-d-engagement-aathi.webp",
     "category": "engagement",
     "aspect": "2/3",
