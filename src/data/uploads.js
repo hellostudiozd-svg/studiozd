@@ -7,6 +7,27 @@
  */
 export const uploads = [
   {
+    "file": "studioz-d-engagement-aathi.webp",
+    "category": "engagement",
+    "aspect": "2/3",
+    "alt": "Engagement aathi",
+    "addedAt": "2026-10-13T13:20:36.472Z"
+  },
+  {
+    "file": "studioz-d-engagement-swerna.webp",
+    "category": "engagement",
+    "aspect": "3/2",
+    "alt": "Engagement swerna",
+    "addedAt": "2026-10-13T13:20:56.591Z"
+  },
+  {
+    "file": "studioz-d-engagement-wngagemnt-one.webp",
+    "category": "engagement",
+    "aspect": "3/2",
+    "alt": "Wngagemnt one",
+    "addedAt": "2026-10-13T13:21:19.454Z"
+  },
+  {
     "file": "studioz-d-wedding-thirupathi.webp",
     "category": "wedding",
     "aspect": "3/2",
