@@ -7,6 +7,13 @@
  */
 export const uploads = [
   {
+    "file": "studioz-d-portrait-praveen-three-2.webp",
+    "category": "portrait",
+    "aspect": "2/3",
+    "alt": "Praveen three",
+    "addedAt": "2026-10-16T09:24:18.382Z"
+  },
+  {
     "file": "studioz-d-portrait-praveen-one.webp",
     "category": "portrait",
     "aspect": "2/3",
