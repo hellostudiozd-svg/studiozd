@@ -7,6 +7,27 @@
  */
 export const uploads = [
   {
+    "file": "studioz-d-portrait-praveen-one.webp",
+    "category": "portrait",
+    "aspect": "2/3",
+    "alt": "Praveen one",
+    "addedAt": "2026-10-16T09:16:07.371Z"
+  },
+  {
+    "file": "studioz-d-portrait-praveen-three.webp",
+    "category": "portrait",
+    "aspect": "2/3",
+    "alt": "Praveen three",
+    "addedAt": "2026-10-16T09:16:57.877Z"
+  },
+  {
+    "file": "studioz-d-portrait-praveen-two.webp",
+    "category": "portrait",
+    "aspect": "2/3",
+    "alt": "Praveen two",
+    "addedAt": "2026-10-16T09:17:54.348Z"
+  },
+  {
     "file": "studioz-d-engagement-swernaont.webp",
     "category": "engagement",
     "aspect": "3/2",
