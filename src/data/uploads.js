@@ -7,6 +7,27 @@
  */
 export const uploads = [
   {
+    "file": "studioz-d-portrait-raja-keerthana-one.webp",
+    "category": "portrait",
+    "aspect": "2/3",
+    "alt": "Raja keerthana one",
+    "addedAt": "2026-10-16T09:28:15.994Z"
+  },
+  {
+    "file": "studioz-d-portrait-raja-keerthana-three.webp",
+    "category": "portrait",
+    "aspect": "2/3",
+    "alt": "Raja keerthana three",
+    "addedAt": "2026-10-16T09:29:10.489Z"
+  },
+  {
+    "file": "studioz-d-portrait-raja-keerthana-two.webp",
+    "category": "portrait",
+    "aspect": "3/2",
+    "alt": "Raja keerthana two",
+    "addedAt": "2026-10-16T09:29:40.326Z"
+  },
+  {
     "file": "studioz-d-portrait-praveen-three-2.webp",
     "category": "portrait",
     "aspect": "2/3",
